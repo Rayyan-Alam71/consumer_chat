@@ -12,10 +12,11 @@ export default function page() {
     const [loading, setLoading] = useState(false)
 
     async function handleSend(){
-        setLoading(true)
+      setLoading(true)
+      try {
         setMessages((prev) => [...prev, {role : "user", content: input}])
         setInput("")
-
+  
         const res = await axios.post("/api/rag", {
             user_query : input,
             namespace : "user_id_namespace"
@@ -23,6 +24,10 @@ export default function page() {
         // @ts-ignore
         setMessages((prev) => [...prev, {role : "ai", content : res.data?.data[0].ai_res.ai_res }])
         setLoading(false)
+      } catch (error) {
+        setMessages((prev)=>[...prev, {role : "ai", content : "sorry i could not recieve your query"}])
+        setLoading(false)
+      }
     }
 
     useEffect(()=>{
