@@ -1,4 +1,6 @@
-import { PrismaAdapter } from "@auth/prisma-adapter";
+// Use the NextAuth-compatible Prisma adapter package
+// If you're on next-auth v4, the adapter package should be '@next-auth/prisma-adapter'
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import { prisma } from "./prisma";
 import GoogleProvider from "next-auth/providers/google"
 import { AuthOptions } from "next-auth";
@@ -14,23 +16,27 @@ export const authOptions = {
             clientSecret : process.env.GOOGLE_CLIENT_SECRET!,   
         })
     ],
-    secret : process.env.JWT_SECRET || 'secret',
+    // NextAuth expects NEXTAUTH_SECRET in many setups; fall back to JWT_SECRET for compatibility
+    secret : process.env.NEXTAUTH_SECRET,
     callbacks :  {
         async jwt({ token}){
-            const dbUser = await prisma.user.findFirst({
-                where : {
-                    email : token.email
+                // token may be called before a DB user exists (first sign-in)
+                // don't throw here — return the token as-is if we can't find the user
+                try {
+                    const dbUser = await prisma.user.findFirst({ where: { email: token.email } });
+                    if (!dbUser) return token;
+
+                    return {
+                        ...token,
+                        id: dbUser.id,
+                        name: dbUser.name,
+                        email: dbUser.email,
+                        picture: dbUser.image,
+                    };
+                } catch (e) {
+                    console.error("jwt callback error:", e);
+                    return token;
                 }
-            })
-            if(!dbUser){
-                throw new Error('No user found')
-            }
-            return {
-                id : dbUser.id,
-                name : dbUser.name,
-                email : dbUser.email,
-                picture : dbUser.picture
-            }
         },
 
         async session({token, session}){

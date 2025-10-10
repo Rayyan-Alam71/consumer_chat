@@ -1,8 +1,20 @@
 "use client";
 import Link from "next/link";
 import { motion } from "framer-motion";
+import { useEffect } from "react";
+import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
+import { callScript } from "./actions";
 
 export default function LandingPage() {
+
+
+  useEffect(()=>{
+    const run = async () => {
+      await callScript()
+    }
+    run()
+  }, [])
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-950 via-purple-900 to-slate-900 text-white overflow-hidden">
       {/* Animated background elements */}
@@ -283,7 +295,7 @@ export default function LandingPage() {
               Join thousands of businesses using ChatBotify to provide instant, intelligent support
             </p>
             <Link 
-              href="/dashboard" 
+              href="/create-bot" 
               className="inline-block px-10 py-5 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full font-bold text-lg hover:shadow-2xl hover:shadow-purple-500/50 transition-all duration-300 transform hover:scale-105"
             >
               Start Building Your Bot Now →

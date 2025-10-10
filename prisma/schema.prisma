@@ -72,8 +72,12 @@ model Bot {
   userId      String      
   user        User        @relation(fields: [userId], references: [id], onDelete: Cascade)
   name        String
-  namespace   String
-  widget_token String
+  namespace   String?
+  filekey     String
+  filename    String    // this stores the source file name
+  fileSource  String?    // this stores the source file url
+  description String
+  widget_token String?
   createdAt     DateTime  @default(now())
 }
 

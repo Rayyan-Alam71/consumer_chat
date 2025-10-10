@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import {v4 as uuid4} from "uuid"
+import { client } from "@/lib/model";
 
 export async function GET(req : NextRequest){
     
@@ -31,17 +32,11 @@ export async function GET(req : NextRequest){
     }
 
     // make a S3 client
-    const client = new S3Client({
-        region : 'eu-north-1',
-        credentials : {
-            accessKeyId ,
-            secretAccessKey
-        }
-    })
+    
 
     const command = new PutObjectCommand({
         Bucket : s3BucketName,
-        Key : filename,
+        Key : filename_key,
         ContentType : content_type
     })
 
@@ -52,10 +47,11 @@ export async function GET(req : NextRequest){
         {expiresIn : 3600} // seconds after this url expires
     )
     if (presignedUrl) return NextResponse.json({
-        success : 'successfull',
+        success : true,
         msg : 'presigned url generated',
         data : [{
-            presignedUrl
+            presignedUrl,
+            key : filename_key
         }] 
     });
     return new Response(null, { status: 500 });

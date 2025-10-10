@@ -6,6 +6,7 @@ import { pinecone } from "./pinecone";
 import { PromptTemplate } from "@langchain/core/prompts";
 import { StringOutputParser } from "@langchain/core/output_parsers";
 import { createStuffDocumentsChain } from "langchain/chains/combine_documents";
+import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
 
 
 const customTemplate = `Use the following pieces of context to answer the question at the end.
@@ -21,9 +22,14 @@ Answer:`;
 
 
 
-export async function perfromChunkingAndEmbedding(docs : Document<Record<string, any>>[], namespace_id : string){
+export async function perfromChunkingAndEmbedding(filepath : string, namespace_id : string){
 
     try {
+        const loader = new PDFLoader(filepath)
+        const docs : Document<Record<string, any>>[]= await loader.load()
+        console.log('docs')
+        console.log(docs)
+        
         // split the docs into chunks
         const textSplitter = new RecursiveCharacterTextSplitter({
             chunkOverlap : 200,
@@ -44,10 +50,10 @@ export async function perfromChunkingAndEmbedding(docs : Document<Record<string,
     
         await vectorStore.addDocuments(splitDocs)
         console.log("embeddings added to the index")
-        // 
+        return true
     } catch (error) {
         console.log(error)
-        return
+        return false
     }
 
 }

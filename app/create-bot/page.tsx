@@ -1,6 +1,7 @@
 'use client'
 import {  useRouter } from 'next/navigation'
 import React, { ChangeEvent, useState } from 'react'
+import Form from './Form'
 
 const page = () => {
   const router = useRouter()
@@ -48,16 +49,7 @@ const page = () => {
 
   return (
     <div className='max-w-screen max-h-screen'>
-        <h1 className='px-8 py-4 text-center text-2xl '> Create a new chatbot </h1>
-        <div className='w-1/2 mx-auto py-10 flex flex-col justify-center gap-4'>
-            <h2 className='w-full text-center text-xl font-semibold'>Upload PDF</h2>
-
-            <div className='flex justify-around items-center'>
-              <input type="file" name='file'  onChange={handleFileUpload}/>
-              <button onClick={handelSubmit} className='p-2 border-1 border-black rounded-lg font-sans'>Upload</button>
-              {/* assume u have pdf in your local server. Now start working with this pdf */}
-            </div>
-        </div>
+        <Form/>   
     </div>
   )
 }

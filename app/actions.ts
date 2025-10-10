@@ -1,8 +1,10 @@
 'use server'
+import { PDFLoader } from '@langchain/community/document_loaders/fs/pdf';
 import { unlink, writeFile } from 'fs/promises';
 import path from "path";
 import PDFParser from 'pdf2json';
-
+import fs from "fs/promises"
+import PdfParse from 'pdf-parse';
 
 export async function handleUpload(formData : FormData){
     const file = formData.get("file") as File;
@@ -10,7 +12,7 @@ export async function handleUpload(formData : FormData){
 
     try {
         const buffer = Buffer.from(await file.arrayBuffer())
-        const filePath = path.join(process.cwd(), 'uploads', file.name)        
+        const filePath = path.join(process.cwd(), 'uploads', file.name).replace(/\\/g, '/');       
 
         // write the content of the file in local
         await writeFile(filePath, buffer)
@@ -53,4 +55,13 @@ export async function parsePDF(filePath : string){
     
     await unlink(filePath)
     return pdfData
+}
+
+export async function callScript(){
+    const filepath = path.join(process.cwd(), 'uploads', 'filename.pdf').replace(/\\/g, '/');
+    console.log(filepath)
+    const resBUffer = await fs.readFile(filepath)
+    const loader= new PDFLoader(filepath)
+    const docs = await loader.load()
+    console.log(docs)
 }
