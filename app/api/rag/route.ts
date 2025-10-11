@@ -1,15 +1,20 @@
 import { runRAGPipeline } from "@/lib/process";
 import { NextRequest, NextResponse } from "next/server";
+import jwt from "jsonwebtoken"
 
 export async function POST(req : NextRequest){
     try {
         // check if the user is authenticated/validated
 
-        const { namespace_id, user_query } : { 
+        const { widget_token , user_query } : { 
             // replace this namespace with project_id, and get the namespace from the project_id by querying the db
-            namespace_id : string,
+            widget_token : string,
             user_query : string 
         }= await req.json()
+
+        const decoded = jwt.verify(widget_token, process.env.JWT_SECRET!) 
+        // @ts-ignore
+        const namespace_id = decoded.namespace
         const AIRes = await runRAGPipeline(namespace_id, user_query)
         
         console.log(AIRes)

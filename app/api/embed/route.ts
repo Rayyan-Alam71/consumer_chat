@@ -4,7 +4,7 @@ import { client } from "@/lib/model";
 import { perfromChunkingAndEmbedding } from "@/lib/process";
 import { GetObjectCommand } from "@aws-sdk/client-s3";
 import { getServerSession } from "next-auth";
-import { serializeUseCacheCacheStore } from "next/dist/server/resume-data-cache/cache-store";
+import jwt from "jsonwebtoken"
 import { NextRequest, NextResponse } from "next/server";
 import {v4 as uuid4} from "uuid"
 
@@ -34,6 +34,9 @@ export async function POST(req : NextRequest){
     
         // save the data in the db
         if(preprocessingResponse){
+            // generate a widget token
+            // @ts-ignore
+            const widgetToken = createWidgetToken(namespace, session.user.id)
             // add in the db
             const dbRes = await prisma.bot.create({
                 data : {
@@ -44,7 +47,8 @@ export async function POST(req : NextRequest){
                     namespace : namespace,
                     description : description,
                     // @ts-ignore
-                    userId : session.user.id
+                    userId : session.user.id,
+                    widget_token : widgetToken
                 }
             })
             if(dbRes){
@@ -89,6 +93,12 @@ async function getFileContent(filekey : string){
 
 }
 
-async function createEmbeddings(text : string, namespace : string){
+function createWidgetToken(namespace : string, userid : string){
+    const payload = {
+        namespace,
+        userid
+    }
+    const token = jwt.sign(payload, process.env.JWT_SECRET! )
+    return token
 
 }

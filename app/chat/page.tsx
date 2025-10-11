@@ -1,8 +1,12 @@
 'use client'
 import React, { useEffect, useRef, useState } from 'react'
 import axios from 'axios'
-export default function page() {
+import { useSearchParams } from 'next/navigation'
 
+export default function page() {
+  const searchParams = useSearchParams()
+
+  const token = searchParams.get("token")
   const chatContainerRef = useRef<HTMLDivElement>(null)
     const [ messages, setMessages ] = useState<{role : string, content :string}[]>([{
         role : "ai",
@@ -19,7 +23,8 @@ export default function page() {
   
         const res = await axios.post("/api/rag", {
             user_query : input,
-            namespace_id : "delete_it_too.txt-rayyan_alam-c56bee4b-89df-48e8-aa8c-382e713c8e78"
+            // pass the widget token from here, and then decode them in the be to get the namespace
+            widget_token : token
         })
         // @ts-ignore
         setMessages((prev) => [...prev, {role : "ai", content : res.data?.data[0].ai_res.ai_res }])

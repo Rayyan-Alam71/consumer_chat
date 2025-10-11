@@ -60,15 +60,3 @@ export async function parsePDF(filePath : string){
     return pdfData
 }
 
-// this is for testing purpose, to check why is PDFLoader not working 
-export async function callScript(){
-    const command = new GetObjectCommand({
-        Bucket : process.env.AWS_S3_BUCKET_NAME!,
-        Key : "delete_it.txt-userid-1bbc0d70-777d-420b-83db-6ff7410116c2"
-    })
-    const data = await client.send(command)
-    const text = await data.Body?.transformToString()
-    console.log(text)
-    return text
-
-}

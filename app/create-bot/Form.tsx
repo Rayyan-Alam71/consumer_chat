@@ -83,7 +83,8 @@ const Form: React.FC = () => {
           botData
         })
         console.log(res)
-
+        // @ts-ignore
+        if(res.data.success) router.push('/dashboard')
       } else {
         console.error('❌ Upload failed', s3UploadRes.statusText);
       }

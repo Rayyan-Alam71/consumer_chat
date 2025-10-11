@@ -76,14 +76,14 @@ export async function runRAGPipeline(namespace_id : string, user_query : string)
         const chain = customRagPromptTemplate.pipe(chatModel).pipe(outputParser)
         const contextDocs = await retriever.invoke(user_query)
         const context = contextDocs.map((docs) => docs.pageContent).join("\n\n")
-        console.log(contextDocs)
+        // console.log(contextDocs)
         
         // const llm_response = await ragChain.invoke({
         //     question : user_query,
         //     context : contextDocs
         // })
         const llm_response = await chain.invoke({question : user_query, context : context})
-        console.log(llm_response)
+        // console.log(llm_response)
 
         return {
             ai_res : llm_response
