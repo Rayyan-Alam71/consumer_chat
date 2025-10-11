@@ -1,16 +1,17 @@
 "use client";
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
 import { callScript } from "./actions";
 
 export default function LandingPage() {
 
-
+  const [text, setText] = useState<string | undefined>("")
   useEffect(()=>{
     const run = async () => {
-      await callScript()
+      const txt = await callScript()
+      setText(txt)
     }
     run()
   }, [])
@@ -18,6 +19,7 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-950 via-purple-900 to-slate-900 text-white overflow-hidden">
       {/* Animated background elements */}
+      {text}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
         <div className="absolute top-40 right-10 w-96 h-96 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse delay-1000"></div>

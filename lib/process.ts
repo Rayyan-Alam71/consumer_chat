@@ -22,26 +22,21 @@ Answer:`;
 
 
 
-export async function perfromChunkingAndEmbedding(filepath : string, namespace_id : string){
+export async function perfromChunkingAndEmbedding(content : string, namespace_id : string){
 
     try {
-        const loader = new PDFLoader(filepath)
-        const docs : Document<Record<string, any>>[]= await loader.load()
-        console.log('docs')
-        console.log(docs)
-        
         // split the docs into chunks
         const textSplitter = new RecursiveCharacterTextSplitter({
             chunkOverlap : 200,
             chunkSize : 500
         })
     
-        const splitDocs = await textSplitter.splitDocuments(docs)
-        const text = splitDocs.map((doc) => doc.pageContent)
+        const splitDocs = await textSplitter.createDocuments([content])
+        // const text = splitDocs.map((doc) => doc.pageContent)
     
-        // create embeddings and store them in the vector db
-        const embeddingResponse = await embeddingModel.embedDocuments(text)
-        console.log(embeddingResponse)
+        // // create embeddings and store them in the vector db
+        // const embeddingResponse = await embeddingModel.embedDocuments(text)
+        // console.log(embeddingResponse)
 
         const vectorStore = await PineconeStore.fromExistingIndex(embeddingModel, {
             pineconeIndex : pinecone,
@@ -62,7 +57,7 @@ export async function runRAGPipeline(namespace_id : string, user_query : string)
     try {
         const vectorStore = await PineconeStore.fromExistingIndex(embeddingModel, {
             pineconeIndex : pinecone,
-            namespace : "user_id_namespace"
+            namespace : namespace_id
         })
         
         const retriever = vectorStore.asRetriever({

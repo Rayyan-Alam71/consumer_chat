@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import {z} from "zod"
 import axios from "axios";
-import { addBotInfo, fetchPdf } from "./actions";
 
 export interface BotData{
   name : string
@@ -79,8 +78,12 @@ const Form: React.FC = () => {
           filekey : key,
           filename : file.name
         } 
-        await addBotInfo(botData)
-        console.log('bot added in the db')
+        console.log(botData)
+        const res = await axios.post('/api/embed', {
+          botData
+        })
+        console.log(res)
+
       } else {
         console.error('❌ Upload failed', s3UploadRes.statusText);
       }
@@ -196,7 +199,7 @@ const Form: React.FC = () => {
                 <div className="relative">
                   <input
                     type="file"
-                    accept="application/pdf"
+                    accept="text/plain"
                     onChange={onFileChange}
                     className="hidden"
                     id="file-upload"

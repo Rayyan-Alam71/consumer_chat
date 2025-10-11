@@ -5,6 +5,9 @@ import path from "path";
 import PDFParser from 'pdf2json';
 import fs from "fs/promises"
 import PdfParse from 'pdf-parse';
+import { GetObjectCommand } from '@aws-sdk/client-s3';
+import { Key } from 'lucide-react';
+import { client } from '@/lib/model';
 
 export async function handleUpload(formData : FormData){
     const file = formData.get("file") as File;
@@ -57,11 +60,15 @@ export async function parsePDF(filePath : string){
     return pdfData
 }
 
+// this is for testing purpose, to check why is PDFLoader not working 
 export async function callScript(){
-    const filepath = path.join(process.cwd(), 'uploads', 'filename.pdf').replace(/\\/g, '/');
-    console.log(filepath)
-    const resBUffer = await fs.readFile(filepath)
-    const loader= new PDFLoader(filepath)
-    const docs = await loader.load()
-    console.log(docs)
+    const command = new GetObjectCommand({
+        Bucket : process.env.AWS_S3_BUCKET_NAME!,
+        Key : "delete_it.txt-userid-1bbc0d70-777d-420b-83db-6ff7410116c2"
+    })
+    const data = await client.send(command)
+    const text = await data.Body?.transformToString()
+    console.log(text)
+    return text
+
 }

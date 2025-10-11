@@ -1,5 +1,5 @@
 const token = document.currentScript.dataset.widgetToken;
-const host = "http://localhost:3000";
+const host = "http://192.168.1.12:3000"; // replace it with the deployed url of this nextjs app
 
 // 1️⃣ Create a floating chat button
 const btn = document.createElement("div");

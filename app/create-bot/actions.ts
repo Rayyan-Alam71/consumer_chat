@@ -14,41 +14,6 @@ import { perfromChunkingAndEmbedding } from "@/lib/process";
 
 // preprocess the file, and store the embedding under the namespace , and then store the info in the db
 
-export async function getS3ObjectContent(key : string, filename : string){
-    try {
-        const command = new GetObjectCommand({
-            Bucket : process.env.AWS_S3_BUCKET_NAME!,
-            Key : key
-        });
-
-        const response = await client.send(command)
-        const content = await response.Body?.transformToByteArray()
-        const filePath = path.join(process.cwd(), 'uploads', `${filename}-${uuid4()}.pdf`)
-        // @ts-ignore
-        await fs.writeFile(filePath, content ,(err)=>{
-            if(err) console.log('error occurred')
-            console.log('files written')
-        })
-        console.log(filePath)
-        return filePath
-    } catch (error) {
-        console.error(error)
-        return ""
-    }
-}
-
-export async function fetchPdf(key : string, filename :string){
-    const filepath = await getS3ObjectContent(key, filename )
-    if(filepath ==="") return
-    const namespace = `${process.env.NAMESPACE_KEY}-${filename}`
-    const res = await perfromChunkingAndEmbedding(filepath, namespace)
-
-    if(res) return {
-        namespace : namespace
-    }
-    else return false
-}
-
 export async function addBotInfo(botData : BotData){
     const session = await getServerSession(authOptions)
     
@@ -57,7 +22,7 @@ export async function addBotInfo(botData : BotData){
     }
 
     const {name, filekey, description, filename} = botData
-    const resFromProcessingFile = await fetchPdf(filekey, filename)
+    const resFromProcessingFile = await process(filekey, filename)
 
     if(!resFromProcessingFile) return
 

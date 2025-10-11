@@ -19,7 +19,7 @@ export default function page() {
   
         const res = await axios.post("/api/rag", {
             user_query : input,
-            namespace : "user_id_namespace"
+            namespace_id : "delete_it_too.txt-rayyan_alam-c56bee4b-89df-48e8-aa8c-382e713c8e78"
         })
         // @ts-ignore
         setMessages((prev) => [...prev, {role : "ai", content : res.data?.data[0].ai_res.ai_res }])
