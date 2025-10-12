@@ -2,7 +2,7 @@ import { S3Client } from "@aws-sdk/client-s3"
 import { ChatOpenAI, OpenAIEmbeddings } from "@langchain/openai"
 
 const accessKeyId = process.env.AWS_KEY_ID!;
-const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY!;
+const secretAccessKey = process.env.MY_AWS_SECRET_ACCESS_KEY!;
 
 export const embeddingModel = new OpenAIEmbeddings({
     apiKey : process.env.OPENAI_API_KEY!,

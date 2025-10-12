@@ -7,7 +7,7 @@ import { client } from "@/lib/model";
 export async function GET(req : NextRequest){
     
     const accessKeyId = process.env.AWS_KEY_ID;
-    const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY;
+    const secretAccessKey = process.env.MY_AWS_SECRET_ACCESS_KEY;
     const s3BucketName = process.env.AWS_S3_BUCKET_NAME;
 
     if(!accessKeyId || !secretAccessKey || !s3BucketName){
