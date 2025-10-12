@@ -6,8 +6,7 @@ import { deleteBot, fetchDetail } from '../actions'
 import {Button} from '@/components/ui/button'
 import { Code, FileText, MessageSquare, Trash2 } from 'lucide-react'
 import { CodeBlock } from '@/components/CodeBlock'
-import { flipToCapital } from '@/lib/process'
-
+import { flipToCapital } from '@/lib/helper'
 const page = () => {
     const params = useParams<{botId : string}>()
     const [botData, setBotData] = useState<BotInterface | undefined>()
