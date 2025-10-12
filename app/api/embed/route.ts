@@ -1,5 +1,5 @@
 import { authOptions } from "@/db/auth";
-import { prisma } from "@/db/prisma";
+import { prisma } from "@/prisma";
 import { client } from "@/lib/model";
 import { perfromChunkingAndEmbedding } from "@/lib/process";
 import { GetObjectCommand } from "@aws-sdk/client-s3";

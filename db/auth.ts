@@ -1,7 +1,7 @@
 // Use the NextAuth-compatible Prisma adapter package
 // If you're on next-auth v4, the adapter package should be '@next-auth/prisma-adapter'
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { prisma } from "./prisma";
+import { prisma } from "../prisma";
 import GoogleProvider from "next-auth/providers/google"
 import { AuthOptions } from "next-auth";
 

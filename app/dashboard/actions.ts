@@ -1,7 +1,7 @@
 'use server'
 
 import { authOptions } from "@/db/auth"
-import { prisma } from "@/db/prisma"
+import { prisma } from "@/prisma"
 import { getServerSession } from "next-auth"
 import { BotInterface } from "./page"
 import { unstable_noStore } from "next/cache"
