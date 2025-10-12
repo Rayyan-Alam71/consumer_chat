@@ -1,5 +1,6 @@
 const token = document.currentScript.dataset.widgetToken;
-const host = "http://192.168.1.12:3000"; // replace it with the deployed url of this nextjs app
+// const host = "http://192.168.1.12:3000"; // replace it with the deployed url of this nextjs app
+const host = "https://bot-forge1.vercel.app"; // replace it with the deployed url of this nextjs app
 
 // 1️⃣ Create a floating chat button
 const btn = document.createElement("div");
