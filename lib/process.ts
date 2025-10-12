@@ -1,3 +1,4 @@
+'use server'
 import { PineconeStore } from "@langchain/pinecone"
 import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
 import { chatModel, embeddingModel } from "./model";

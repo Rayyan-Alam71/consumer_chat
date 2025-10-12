@@ -1,3 +1,4 @@
+'use server'
 // Lazily import the Pinecone client at runtime (server-only) to avoid bundler errors
 export async function getPineconeIndex() {
    const { Pinecone } = await import('@pinecone-database/pinecone');
