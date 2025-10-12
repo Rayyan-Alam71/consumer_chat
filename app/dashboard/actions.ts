@@ -19,6 +19,9 @@ export const fetchBots = async () =>{
             where : {
                 // @ts-ignore
                 userId : session.user.id
+            },
+            orderBy :{
+                createdAt : 'desc'
             }
         })
         console.log("bots")

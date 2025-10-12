@@ -15,7 +15,7 @@ document.body.appendChild(btn);
 
 // 2️⃣ Create a hidden iframe pointing to your chat app
 const iframe = document.createElement("iframe");
-iframe.src = `${host}/chat?token=${token}`;
+iframe.src = `${host}/chat?widget_token=${token}`;
 Object.assign(iframe.style, {
   position:"fixed", bottom:"80px", right:"20px",
   width:"350px", height:"500px",

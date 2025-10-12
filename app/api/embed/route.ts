@@ -16,7 +16,7 @@ export async function POST(req : NextRequest){
     }
     console.log(session.user)
     const { botData } = await req.json()
-    const  {name, description, filekey, filename} = botData
+    const  {name, description, filekey, filename, website} = botData
     console.log(`${name}-${description}-${filekey}-${filename}`)
     if(!name || !description || !filekey || !filename){
         return NextResponse.json({
@@ -27,8 +27,9 @@ export async function POST(req : NextRequest){
     try {
         
         // fetch the content of the file, embed the document, and store the response in the db
-        const text : string = await getFileContent(filekey)
+        let text : string = await getFileContent(filekey)
         if(text === "") return
+        text = text + `. You are are a hepfull website bot, and you are attached to the website with url : ${website}.`
         const namespace = `${filename}-${process.env.NAMESPACE_KEY}-${uuid4()}`
         const preprocessingResponse = await perfromChunkingAndEmbedding(text, namespace)
     
@@ -48,7 +49,8 @@ export async function POST(req : NextRequest){
                     description : description,
                     // @ts-ignore
                     userId : session.user.id,
-                    widget_token : widgetToken
+                    widget_token : widgetToken,
+                    website : website
                 }
             })
             if(dbRes){

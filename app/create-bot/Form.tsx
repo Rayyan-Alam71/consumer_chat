@@ -9,12 +9,13 @@ export interface BotData{
   description : string
   filekey : string
   filename : string
+  website : string
 }
 
 const formSchema = z.object({
     botName : z.string().min(3,"The name should be 3 letters atleast"),
     botDescription : z.string().min(5, "Description must be atleast 3 words").max(100, "Description must not exceed 100 words"),
-    webUrl : z.string().optional(),
+    webUrl : z.string().url(),
     file : z.instanceof(File).refine((file) => file.size < 10 * 1024 * 1024,"File should be under 10Mb")
 }) 
 
@@ -76,7 +77,8 @@ const Form: React.FC = () => {
           name : botName,
           description : botDescription,
           filekey : key,
-          filename : file.name
+          filename : file.name,
+          website : website
         } 
         console.log(botData)
         const res = await axios.post('/api/embed', {
@@ -181,7 +183,6 @@ const Form: React.FC = () => {
                 <label className="font-semibold text-lg mb-2 flex items-center gap-2">
                   <span className="text-2xl">🌐</span>
                   Website URL
-                  <span className="text-sm font-normal text-gray-400">(optional)</span>
                 </label>
                 <input
                   value={website}
@@ -198,7 +199,7 @@ const Form: React.FC = () => {
               <div className="flex flex-col">
                 <label className="font-semibold text-lg mb-2 flex items-center gap-2">
                   <span className="text-2xl">📄</span>
-                  Training Data (PDF) *
+                  Training Data (.txt) *
                 </label>
                 <div className="relative">
                   <input
@@ -235,7 +236,7 @@ const Form: React.FC = () => {
                             📤
                           </div>
                           <p className="text-lg font-semibold">
-                            Drop your PDF here or click to browse
+                            Drop your .txt file here or click to browse
                           </p>
                           <p className="text-sm text-gray-600">
                             Maximum file size: 10MB
@@ -246,7 +247,7 @@ const Form: React.FC = () => {
                   </label>
                 </div>
                 <span className="text-sm text-gray-700 mt-2">
-                  Upload your knowledge base, FAQs, or documentation
+                  Upload your knowledge base, FAQs, or documentation describing your website. 
                 </span>
               </div>
 
@@ -294,6 +295,7 @@ const Form: React.FC = () => {
                   disabled={loading}
                   className="w-full sm:w-auto px-8 py-4 bg-white/10 backdrop-blur-sm rounded-xl font-semibold hover:bg-white/20 transition-all duration-300 border border-white/20 cursor-pointer"
                 >
+                  {loading ? <>Processing</> : <>Reset Form</>}
                   Reset Form
                 </button>
               </div>

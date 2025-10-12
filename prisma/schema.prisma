@@ -77,6 +77,7 @@ model Bot {
   filename    String    // this stores the source file name
   fileSource  String?    // this stores the source file url
   description String
+  website     String?
   widget_token String?
   createdAt     DateTime  @default(now())
 }

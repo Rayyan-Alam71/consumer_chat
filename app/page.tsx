@@ -10,7 +10,7 @@ export default function LandingPage() {
           <div className="w-10 h-10 bg-blue-600 rounded-lg flex items-center justify-center shadow-md">
             <span className="text-2xl">💬</span>
           </div>
-          <h1 className="text-2xl font-bold text-blue-600">ChatBotify</h1>
+          <h1 className="text-2xl font-bold text-blue-600">BotForge</h1>
         </div>
         <nav className="hidden md:flex space-x-8 items-center">
           <a href="#features" className="text-gray-700 hover:text-blue-600 font-medium transition-colors duration-300">Features</a>
@@ -213,7 +213,7 @@ export default function LandingPage() {
         <div className="max-w-5xl mx-auto bg-blue-50 rounded-3xl p-12 border-2 border-blue-200 text-center">
           <h2 className="text-5xl font-bold mb-6 text-gray-900">Ready to Transform Your Customer Support?</h2>
           <p className="text-xl text-gray-600 mb-10 max-w-2xl mx-auto">
-            Join thousands of businesses using ChatBotify to provide instant, intelligent support
+            Join thousands of businesses using BotForge to provide instant, intelligent support
           </p>
           <a 
             href="/create-bot" 
@@ -233,10 +233,10 @@ export default function LandingPage() {
               <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center shadow-md">
                 <span className="text-xl">💬</span>
               </div>
-              <span className="text-lg font-bold text-blue-600">ChatBotify</span>
+              <span className="text-lg font-bold text-blue-600">BotForge</span>
             </div>
             <div className="text-gray-600 text-center md:text-right">
-              <p>© {new Date().getFullYear()} ChatBotify. All rights reserved.</p>
+              <p>© {new Date().getFullYear()} BotForge. All rights reserved.</p>
               <p className="text-sm mt-2">Built with ❤️ for businesses everywhere</p>
             </div>
           </div>
