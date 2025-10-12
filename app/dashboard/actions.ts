@@ -4,8 +4,10 @@ import { authOptions } from "@/db/auth"
 import { prisma } from "@/db/prisma"
 import { getServerSession } from "next-auth"
 import { BotInterface } from "./page"
+import { unstable_noStore } from "next/cache"
 
 export const fetchBots = async () =>{
+    unstable_noStore()
     const session = await getServerSession(authOptions)
     if(!session?.user){
         throw new Error("User not authenticated")
@@ -48,6 +50,7 @@ export async function deleteBot(bot : BotInterface){
 }
 
 export async function fetchDetail(botId: string){
+    unstable_noStore()
     try {
         const res = await prisma.bot.findFirst({
             where : {

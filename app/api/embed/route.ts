@@ -99,6 +99,8 @@ function createWidgetToken(namespace : string, userid : string){
         userid
     }
     const token = jwt.sign(payload, process.env.JWT_SECRET! )
+    console.log("token created")
+    console.log(token)
     return token
 
 }

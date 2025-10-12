@@ -1,5 +1,5 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export interface BotInterface {
     id: string;
@@ -48,6 +48,9 @@ const page = () => {
 
         {/* my bots section */}
         <div className='grid grid-cols-3'>
+          {loading && [...Array(12)].map((_, i)=>(
+            <BotDetailSkeleton key={i}/>
+          ))}
           {bots && bots.map((bot, i) => (
             <BotDetailComponent key = {i} botDetail = {bot}/>
           ))}
@@ -65,7 +68,7 @@ export function DashboardHeader(){
             <p>Manage your AI Chatbots</p>
           </div>
           <div>
-            <Button asChild><Link href="/create-bot" className='flex items-center'><CirclePlus/>Create New Bot</Link></Button>
+            <Button asChild className='bg-blue-700 text-white  px-3 py-2'><Link href="/dashboard" className='flex items-center'><ArrowLeft/>Go Back</Link></Button>
           </div>
     </div>
   )
@@ -73,13 +76,15 @@ export function DashboardHeader(){
 
 function BotDetailComponent({botDetail}: {botDetail: BotInterface}) {
   const router = useRouter()
-  const handleDelete = () => {
+  const handleDelete = async () => {
     // deleteBot function would be called here
     console.log('Deleting bot:', botDetail.id)
+    await deleteBot(botDetail)
+    router.refresh()
   }
 
   return (
-    <div className='px-4 py-2 flex flex-col gap-2' onClick={()=>router.push('/dashboard/'+botDetail.id)}>
+    <div className='px-4 py-2 flex flex-col gap-2'>
       <div className='bg-white rounded-2xl p-6 border-2 border-gray-200 hover:border-blue-400 hover:shadow-xl transition-all duration-300 flex flex-col h-full'>
         {/* Bot Icon */}
         <div className='w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center mb-4 hover:bg-blue-200 transition-colors duration-300'>
@@ -89,10 +94,17 @@ function BotDetailComponent({botDetail}: {botDetail: BotInterface}) {
         {/* Bot Details */}
         <div className='flex-grow mb-6'>
           <h2 className='text-2xl font-bold mb-3 text-gray-900'>
-            {botDetail.name}
+            {flipToCapital(botDetail.name)}
           </h2>
-          <p className='text-gray-600 leading-relaxed mb-4'>
-            {botDetail.description}
+          <p className='text-blue-600 text-sm'>
+              Created on {new Date(botDetail.createdAt).toLocaleDateString('en-US', { 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+              })}
+            </p>
+          <p className='text-black leading-relaxed mb-4'>
+            {flipToCapital(botDetail.description)}
           </p>
           
           {/* File Info */}
@@ -111,11 +123,44 @@ function BotDetailComponent({botDetail}: {botDetail: BotInterface}) {
             Chat Playground
           </a>
           <button
-            onClick={handleDelete}
-            className='px-4 py-3 bg-red-50 hover:bg-red-100 rounded-xl transition-all duration-300 border-2 border-red-200 hover:border-red-300'
+            onClick={()=>router.push('/dashboard/'+botDetail.id)}
+            className='flex-1 px-4 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-xl font-semibold text-center shadow-md hover:shadow-lg transition-all duration-300 text-sm'
           >
-            <Trash2 className='w-5 h-5 text-red-600'/>
+            See details
           </button>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+import React from "react"
+
+export function BotDetailSkeleton() {
+  return (
+    <div className="px-4 py-2 flex flex-col gap-2 animate-pulse">
+      <div className="bg-white rounded-2xl p-6 border-2 border-gray-200 flex flex-col h-full">
+        
+        {/* Bot Icon Placeholder */}
+        <div className="w-14 h-14 bg-gray-200 rounded-xl mb-4" />
+
+        {/* Bot Details */}
+        <div className="flex-grow mb-6">
+          <div className="h-6 bg-gray-200 rounded w-3/4 mb-3" />
+          <div className="h-4 bg-gray-200 rounded w-full mb-2" />
+          <div className="h-4 bg-gray-200 rounded w-5/6 mb-4" />
+          
+          {/* File Info */}
+          <div className="flex items-center gap-2 bg-gray-100 px-3 py-2 rounded-lg">
+            <div className="w-4 h-4 bg-gray-300 rounded" />
+            <div className="h-3 w-1/2 bg-gray-300 rounded" />
+          </div>
+        </div>
+
+        {/* Action Buttons */}
+        <div className="flex justify-between items-center gap-3">
+          <div className="flex-1 h-10 bg-gray-200 rounded-xl" />
+          <div className="w-10 h-10 bg-gray-200 rounded-xl" />
         </div>
       </div>
     </div>
@@ -125,7 +170,7 @@ function BotDetailComponent({botDetail}: {botDetail: BotInterface}) {
 
 export default page
 
-import { Calendar, CirclePlus, FileText, Home, Inbox, LogOutIcon, MessageSquare, Search, Settings, Trash2 } from "lucide-react"
+import { ArrowLeft, Calendar, CirclePlus, FileText, Home, Inbox, LogOutIcon, MessageSquare, Search, Settings, Trash2 } from "lucide-react"
 
 import {
   Sidebar,
@@ -142,12 +187,13 @@ import Link from 'next/link'
 import { deleteBot, fetchBots } from './actions'
 import { signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import { flipToCapital } from './[botId]/page';
 
 // Menu items.
 const items = [
   {
     title: "Home",
-    url: "#",
+    url: "/",
     icon: Home,
   },
   {
@@ -163,11 +209,12 @@ const items = [
 ]
 
 export function AppSidebar() {
+  const router = useRouter()
   return (
     <Sidebar>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel className='mb-4 text-xl text-gray-700'>RAG Chatbot</SidebarGroupLabel>
+          <SidebarGroupLabel className='mb-4 text-xl text-gray-700 cursor-pointer' onClick={()=>router.push("/")}>RAG Chatbot</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
       

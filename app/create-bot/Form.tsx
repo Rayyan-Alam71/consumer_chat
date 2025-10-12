@@ -35,7 +35,7 @@ const Form: React.FC = () => {
   const handleSubmit = async (e : any) => {
     e.preventDefault()
     try {
-      
+      setLoading(true)
       const response = formSchema.safeParse({
         botName,
         botDescription,
@@ -93,13 +93,16 @@ const Form: React.FC = () => {
       console.log('error occured')
       console.error(error)
       return
+    }finally{
+      setLoading(false)
+      router.push("/dashboard")
     }
     
 
   }
 
    return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-950 via-purple-900 to-slate-900 text-white overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-purple-50 text-gray-900">
       {/* Animated background elements */}
       {/* <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-20 left-10 w-72 h-72 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
@@ -113,7 +116,7 @@ const Form: React.FC = () => {
           <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg flex items-center justify-center">
             <span className="text-2xl">💬</span>
           </div>
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+          <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-800 bg-clip-text text-transparent">
             ChatBotify
           </h1>
         </div>
@@ -126,17 +129,17 @@ const Form: React.FC = () => {
           <div className="text-center mb-12">
             <h2 className="text-5xl font-bold mb-4">
               Create Your{" "}
-              <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-blue-600 to-purple-800 bg-clip-text text-transparent">
                 AI Chatbot
               </span>
             </h2>
-            <p className="text-xl text-gray-300">
+            <p className="text-xl text-gray-700">
               Fill in the details below to get started with your intelligent chatbot
             </p>
           </div>
 
           {/* Form Card */}
-          <div className="bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-xl rounded-3xl p-8 md:p-12 border border-white/10 shadow-2xl">
+          <div className="bg-gradient-to-br from-blue-200 to-pruple-300 backdrop-blur-xl rounded-3xl p-8 md:p-12 border border-gray-900/10 shadow-2xl">
             <div className="flex flex-col gap-6">
               {/* Bot Name */}
               <div className="flex flex-col">
@@ -147,11 +150,11 @@ const Form: React.FC = () => {
                 <input
                   value={botName}
                   onChange={(e) => setBotName(e.target.value)}
-                  className="p-4 bg-slate-700/50 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300 placeholder-gray-400 text-white"
-                  placeholder="e.g. SupportBot Pro"
+                  className="p-4 border-1 bg-gray-100 border-gray-900 rounded-xl focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all duration-300 placeholder-gray-400 text-gray-900"
+                  placeholder="e.g. Portfolio Bot"   
                   required
                 />
-                <span className="text-sm text-gray-400 mt-2">
+                <span className="text-sm text-gray-700 mt-2">
                   Choose a memorable name for your chatbot
                 </span>
               </div>
@@ -165,10 +168,10 @@ const Form: React.FC = () => {
                 <textarea
                   value={botDescription}
                   onChange={(e) => setBotDescription(e.target.value)}
-                  className="p-4 bg-slate-700/50 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300 h-32 resize-none placeholder-gray-400 text-white"
+                  className="p-4 bg-gray-100 border border-gray-900 rounded-xl focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all duration-300 h-32 resize-none placeholder-gray-400 text-gray-900"
                   placeholder="Describe what your bot does and how it helps your customers..."
                 />
-                <span className="text-sm text-gray-400 mt-2">
+                <span className="text-sm text-gray-700 mt-2">
                   5-100 characters • Help users understand your bot's purpose
                 </span>
               </div>
@@ -183,10 +186,10 @@ const Form: React.FC = () => {
                 <input
                   value={website}
                   onChange={(e) => setWebsite(e.target.value)}
-                  className="p-4 bg-slate-700/50 border border-white/10 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition-all duration-300 placeholder-gray-400 text-white"
+                  className="p-4 bg-gray-100 border border-gray-900 rounded-xl focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all duration-300 placeholder-gray-400 text-gray-900"
                   placeholder="https://example.com"
                 />
-                <span className="text-sm text-gray-400 mt-2">
+                <span className="text-sm text-gray-700 mt-2">
                   Where will this chatbot be deployed?
                 </span>
               </div>
@@ -208,7 +211,7 @@ const Form: React.FC = () => {
                   />
                   <label
                     htmlFor="file-upload"
-                    className="flex items-center justify-center p-8 bg-slate-700/30 border-2 border-dashed border-white/20 rounded-xl cursor-pointer hover:border-purple-500 hover:bg-slate-700/50 transition-all duration-300 group"
+                    className="flex items-center justify-center p-8 bg-gray-100 border-2 border-dashed border-gray-900 rounded-xl cursor-pointer hover:border-purple-500 hover:bg-gray-200 transition-all duration-300 group"
                   >
                     <div className="text-center">
                       {file ? (
@@ -234,7 +237,7 @@ const Form: React.FC = () => {
                           <p className="text-lg font-semibold">
                             Drop your PDF here or click to browse
                           </p>
-                          <p className="text-sm text-gray-400">
+                          <p className="text-sm text-gray-600">
                             Maximum file size: 10MB
                           </p>
                         </div>
@@ -242,7 +245,7 @@ const Form: React.FC = () => {
                     </div>
                   </label>
                 </div>
-                <span className="text-sm text-gray-400 mt-2">
+                <span className="text-sm text-gray-700 mt-2">
                   Upload your knowledge base, FAQs, or documentation
                 </span>
               </div>
@@ -252,7 +255,7 @@ const Form: React.FC = () => {
                 <button
                   onClick={handleSubmit}
                   disabled={loading}
-                  className="w-full sm:flex-1 px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl font-semibold text-lg hover:shadow-2xl hover:shadow-purple-500/50 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                  className="w-full sm:flex-1 px-8 py-4 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl font-semibold text-lg hover:shadow-2xl hover:shadow-purple-500/50 transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 cursor-pointer"
                 >
                   {loading ? (
                     <span className="flex items-center justify-center gap-2">
@@ -288,7 +291,8 @@ const Form: React.FC = () => {
                     setWebsite("");
                     setFile(null);
                   }}
-                  className="w-full sm:w-auto px-8 py-4 bg-white/10 backdrop-blur-sm rounded-xl font-semibold hover:bg-white/20 transition-all duration-300 border border-white/20"
+                  disabled={loading}
+                  className="w-full sm:w-auto px-8 py-4 bg-white/10 backdrop-blur-sm rounded-xl font-semibold hover:bg-white/20 transition-all duration-300 border border-white/20 cursor-pointer"
                 >
                   Reset Form
                 </button>
@@ -296,7 +300,7 @@ const Form: React.FC = () => {
 
               {/* Help Text */}
               <div className="mt-4 p-4 bg-blue-500/10 border border-blue-400/30 rounded-xl">
-                <p className="text-sm text-blue-300">
+                <p className="text-sm text-blue-600">
                   💡 <span className="font-semibold">Pro Tip:</span> The better your
                   training data, the smarter your bot! Include comprehensive FAQs and
                   documentation for best results.

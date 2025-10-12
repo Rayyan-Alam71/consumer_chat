@@ -31,7 +31,9 @@ export async function POST(req : NextRequest){
         return NextResponse.json({
             success : false,
             msg : 'error occurred',
-            data : []
+            data : [{
+                ai_res : "Some error occurred. Sorry for inconvenience."
+            }]
         })
     }
 }

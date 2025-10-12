@@ -44,7 +44,7 @@ export default function LandingPage() {
 
         <div className="flex flex-col sm:flex-row gap-4">
           <a 
-            href="/dashboard" 
+            href="/create-bot" 
             className="px-8 py-4 bg-blue-600 text-white rounded-full font-semibold hover:bg-blue-700 shadow-lg shadow-blue-500/30 transition-all duration-300 text-lg"
           >
             Start Building Free →

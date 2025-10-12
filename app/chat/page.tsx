@@ -6,7 +6,7 @@ import { useSearchParams } from 'next/navigation'
 export default function page() {
   const searchParams = useSearchParams()
 
-  const token = searchParams.get("token")
+  const token = searchParams.get("widget_token")
   const chatContainerRef = useRef<HTMLDivElement>(null)
     const [ messages, setMessages ] = useState<{role : string, content :string}[]>([{
         role : "ai",
