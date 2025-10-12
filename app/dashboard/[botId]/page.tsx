@@ -5,10 +5,8 @@ import { BotDetailSkeleton, BotInterface, DashboardHeader } from '../page'
 import { deleteBot, fetchDetail } from '../actions'
 import {Button} from '@/components/ui/button'
 import { Code, FileText, MessageSquare, Trash2 } from 'lucide-react'
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
-import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
-import Link from 'next/link'
 import { CodeBlock } from '@/components/CodeBlock'
+import { flipToCapital } from '@/lib/process'
 
 const page = () => {
     const params = useParams<{botId : string}>()
@@ -46,11 +44,7 @@ const page = () => {
 
 export default page
 
-export function flipToCapital(text : string){
-    if(text ==="") return ""
-    const flippedText = text.charAt(0).toUpperCase() + text.slice(1)
-    return flippedText
-}
+
 
 function DisplayBot({ botData }: { botData: BotInterface }) {
     const router = useRouter()

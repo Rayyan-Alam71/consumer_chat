@@ -16,9 +16,9 @@ import Link from 'next/link'
 import { deleteBot, fetchBots } from './actions'
 import { signOut, useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
-import { flipToCapital } from './[botId]/page'
 import botImage from "@/public/bot.png"
 import Image from 'next/image'
+import { flipToCapital } from '@/lib/process'
 
 export interface BotInterface {
     id: string;

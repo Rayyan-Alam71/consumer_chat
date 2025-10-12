@@ -101,3 +101,9 @@ export async function runRAGPipeline(namespace_id : string, user_query : string)
         }
     }
 }
+
+export function flipToCapital(text : string){
+    if(text ==="") return ""
+    const flippedText = text.charAt(0).toUpperCase() + text.slice(1)
+    return flippedText
+}
