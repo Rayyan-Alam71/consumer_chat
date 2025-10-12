@@ -1,12 +1,9 @@
 import { PineconeStore } from "@langchain/pinecone"
-import type { Document } from "@langchain/core/documents";
 import { RecursiveCharacterTextSplitter } from "@langchain/textsplitters";
 import { chatModel, embeddingModel } from "./model";
-import { pinecone } from "./pinecone";
+import { getPineconeIndex } from "./pinecone";
 import { PromptTemplate } from "@langchain/core/prompts";
 import { StringOutputParser } from "@langchain/core/output_parsers";
-import { createStuffDocumentsChain } from "langchain/chains/combine_documents";
-import { PDFLoader } from "@langchain/community/document_loaders/fs/pdf";
 
 
 const customTemplate = `You are an AI assistant embedded on a website. 
@@ -44,8 +41,9 @@ export async function perfromChunkingAndEmbedding(content : string, namespace_id
         // const embeddingResponse = await embeddingModel.embedDocuments(text)
         // console.log(embeddingResponse)
 
+        const pineconeIndex = await getPineconeIndex();
         const vectorStore = await PineconeStore.fromExistingIndex(embeddingModel, {
-            pineconeIndex : pinecone,
+            pineconeIndex,
             namespace : namespace_id
         })
     
@@ -61,8 +59,9 @@ export async function perfromChunkingAndEmbedding(content : string, namespace_id
 
 export async function runRAGPipeline(namespace_id : string, user_query : string){
     try {
+        const pineconeIndex = await getPineconeIndex();
         const vectorStore = await PineconeStore.fromExistingIndex(embeddingModel, {
-            pineconeIndex : pinecone,
+            pineconeIndex,
             namespace : namespace_id
         })
         
