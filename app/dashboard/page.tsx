@@ -17,6 +17,8 @@ import { deleteBot, fetchBots } from './actions'
 import { signOut, useSession } from 'next-auth/react'
 import { useRouter } from 'next/navigation'
 import { flipToCapital } from './[botId]/page'
+import botImage from "@/public/bot.png"
+import Image from 'next/image'
 
 export interface BotInterface {
     id: string;
@@ -73,6 +75,14 @@ const page = () => {
           {bots && bots.map((bot, i) => (
             <BotDetailComponent key = {i} botDetail = {bot}/>
           ))}
+
+          {!loading && bots.length === 0 && (
+            <div className="flex flex-col items-center justify-center py-10 mx-auto">
+              <img src="/bot.png" alt="No bots" className="md:w-60 w-20 md:h-60 h-20 opacity-80" />
+              <p className="text-gray-600 mt-3 flex items-center flex-col md:flex-row gap-2 ">No bots yet — create your first one! <Button asChild className='bg-blue-500 text-white md:ml-3'><Link href={'/create-bot'}>Create Bot</Link></Button></p>
+            </div>
+          )}
+
         </div>
       </div>
     </div>

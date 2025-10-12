@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useRouter } from "next/navigation";
 import {z} from "zod"
 import axios from "axios";
+import Link from "next/link";
 
 export interface BotData{
   name : string
@@ -119,7 +120,7 @@ const Form: React.FC = () => {
             <span className="text-2xl">💬</span>
           </div>
           <h1 className="text-2xl font-bold bg-gradient-to-r from-blue-400 to-purple-800 bg-clip-text text-transparent">
-            ChatBotify
+            <Link href={"/"}>ChatBotify</Link>
           </h1>
         </div>
       </header>
@@ -296,7 +297,6 @@ const Form: React.FC = () => {
                   className="w-full sm:w-auto px-8 py-4 bg-white/10 backdrop-blur-sm rounded-xl font-semibold hover:bg-white/20 transition-all duration-300 border border-white/20 cursor-pointer"
                 >
                   {loading ? <>Processing</> : <>Reset Form</>}
-                  Reset Form
                 </button>
               </div>
 
