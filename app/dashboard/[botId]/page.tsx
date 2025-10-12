@@ -12,19 +12,8 @@ import { CodeBlock } from '@/components/CodeBlock'
 
 const page = () => {
     const params = useParams<{botId : string}>()
-    const [botData, setBotData] = useState<BotInterface | undefined>({
-    id: 'cmgmnemyj0001tafoepxxbgzm',
-    userId: 'cmgcmq1cx0000ta4o4ur4tg3v',
-    name: 'token testing',
-    namespace: 'delete_it_too.txt-rayyan_alam-738d9943-6228-4487-bbf6-0aae4cd52a23',
-    filekey: 'delete_it_too.txt-userid-929278d8-2798-4273-b2d6-ad885ffbaedb',
-    filename: 'delete_it_too.txt',
-    fileSource: 'to-be-checked',
-    description: 'this is to test whether it is getting back the widget token',
-    widget_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lc3BhY2UiOiJkZWxldGVfaXRfdG9vLnR4dC1yYXl5YW5fYWxhbS03MzhkOTk0My02MjI4LTQ0ODctYmJmNi0wYWFlNGNkNTJhMjMiLCJ1c2VyaWQiOiJjbWdjbXExY3gwMDAwdGE0bzR1cjR0ZzN2IiwiaWF0IjoxNzYwMjA5Njk3fQ.nEiRA9_0PoM08FgWKRUTqE4rrWmCpkY33riiHuvDfUc',
-    createdAt: new Date('2025-10-11T19:08:17.456Z')
-  })
-    const [loading, setLoading] = useState<boolean>(true)
+    const [botData, setBotData] = useState<BotInterface | undefined>()
+    const [loading, setLoading] = useState<boolean>(false)
     useEffect(()=>{
         const fetchBotDetail = async () => {
             try {
@@ -39,7 +28,7 @@ const page = () => {
                 setLoading(false)
             }
         }
-        // fetchBotDetail()
+        fetchBotDetail()
     },[])
     if(!params.botId) return
     return (
