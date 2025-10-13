@@ -48,7 +48,7 @@ export default page
 function DisplayBot({ botData }: { botData: BotInterface }) {
     const router = useRouter()
     const [loading, setLoading] = useState<boolean>(false)
-  const scriptCode = `<script src="http://192.168.1.12:3000/embed-loader.js" data-widget-token="${botData.widget_token}" defer></script>`
+  const scriptCode = `<script src="https://bot-forge1.vercel.app/embed-loader.js" data-widget-token="${botData.widget_token}" defer></script>`
   
 
   async function handleDelete(data : BotInterface){
