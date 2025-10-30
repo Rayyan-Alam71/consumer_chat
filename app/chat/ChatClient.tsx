@@ -46,7 +46,7 @@ export default function ChatClient() {
   return (
     <div className="flex flex-col h-screen w-full max-w-md mx-auto border rounded-lg shadow-lg">
       <h1 className='border-b-1 border-black bg-gradient-to-r from-blue-600 to-purple-600 text-transparent bg-clip-text px-3 py-2 md:text-lg text-md mx-auto font-bold'>
-        Built Using RagWebsite
+        Built using BotForge
       </h1>
       
       {/* Chat history */}
